@@ -14,6 +14,9 @@ export default {
   target: 'node',
   mode: 'production',
   resolve: {
+    extensionAlias: {
+      '.js': ['.js', '.ts', '.tsx'],
+    },
     extensions: ['.ts', '.js', '.json'],
   },
   module: {
