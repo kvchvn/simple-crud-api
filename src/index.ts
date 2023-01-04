@@ -1,3 +1,4 @@
+import dotenv from 'dotenv';
 import { createServer } from 'http';
 import { createUser, getAllUsers, getUserById, removeUserById, updateUserById } from './data.js';
 import {
@@ -9,7 +10,11 @@ import {
 } from './helpers.js';
 import { Endpoints } from './types.js';
 
+dotenv.config();
+
 const server = createServer();
+
+const PORT = process.env.PORT || 4000;
 
 server.on('request', (req, res) => {
   try {
@@ -118,4 +123,5 @@ server.on('request', (req, res) => {
   }
 });
 
-server.listen(4000);
+server.listen(PORT);
+console.log(`\nServer is listening on http://localhost:${PORT}`);
