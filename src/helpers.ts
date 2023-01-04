@@ -1,3 +1,4 @@
+import { ServerResponse } from 'http';
 import { BadResult, GoodResult, User } from './types.js';
 
 export const validateFields = (
@@ -33,4 +34,35 @@ export const validateFields = (
   return {
     isDone: true,
   };
+};
+
+export const sendError = (statusCode: number, message: string, res: ServerResponse) => {
+  res.writeHead(statusCode, { 'Content-Type': 'application/json' });
+  const result = {
+    status: 'error',
+    message,
+  };
+  res.end(JSON.stringify(result));
+};
+
+export const sendInvalidUrlError = (res: ServerResponse) =>
+  sendError(404, `Request's url is invalid.`, res);
+
+export const sendInternalServerError = (res: ServerResponse) =>
+  sendError(500, 'Internal server error.', res);
+
+export const sendInvalidBodyError = (res: ServerResponse) =>
+  sendError(400, `Request's body is invalid.`, res);
+
+export const sendDataInJSON = (
+  statusCode: number,
+  data: User | User[] | null,
+  res: ServerResponse
+) => {
+  res.writeHead(statusCode, { 'Content-Type': 'application/json' });
+  const result = {
+    status: 'ok',
+    data,
+  };
+  res.end(JSON.stringify(result));
 };
