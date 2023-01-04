@@ -1,4 +1,6 @@
 import { validateFields } from './helpers.js';
+import { BadResult, GoodResult, OperationResult, User } from './types.js';
+
 const ALL_USERS: User[] = [
   {
     id: '0',
@@ -86,3 +88,21 @@ export const updateUserById = (userId: string, newUserData: Omit<User, 'id'>): O
   };
 };
 
+export const removeUserById = (userId: string): Omit<GoodResult, 'data'> | BadResult => {
+  //TODO: check if id is valid
+  const userIndex = ALL_USERS.findIndex((user) => user.id === userId);
+  if (userIndex !== -1) {
+    ALL_USERS.splice(userIndex, 1);
+
+    return {
+      isDone: true,
+      statusCode: 204,
+    };
+  } else {
+    return {
+      isDone: false,
+      statusCode: 404,
+      message: `User with such id doesn't exist.`,
+    };
+  }
+};
