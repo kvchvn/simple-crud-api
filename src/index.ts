@@ -24,6 +24,24 @@ server.on('request', (req, res) => {
     ) {
       sendInvalidUrlError(res);
     }
+
+    // Get all users
+    if (!res.writableEnded && method === 'GET' && !id) {
+      const users = getAllUsers();
+
+      sendDataInJSON(200, users, res);
+    }
+
+    // Get user by id
+    if (!res.writableEnded && method === 'GET' && id) {
+      const operationResult = getUserById(id);
+      if (operationResult.isDone) {
+        sendDataInJSON(operationResult.statusCode, operationResult.data, res);
+      } else {
+        sendError(operationResult.statusCode, operationResult.message, res);
+      }
+    }
+
   } catch {
     sendInternalServerError(res);
   }
