@@ -4,12 +4,12 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-const config = {
+export default {
   context: resolve(__dirname, 'src'),
   entry: './index.ts',
   output: {
     path: resolve(__dirname, 'dist'),
-    filename: 'bundle.js',
+    filename: 'bundle.cjs',
   },
   target: 'node',
   mode: 'production',
@@ -25,5 +25,3 @@ const config = {
     ],
   },
 };
-
-export default config;
