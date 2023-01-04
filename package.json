@@ -6,8 +6,10 @@
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node dist/bundle.js",
-    "lint:fix": "eslint ./ --ext .ts,.js --fix"
+    "start": "node dist/bundle.cjs",
+    "build": "npx webpack build",
+    "dev": "npx nodemon src/index.ts",
+    "lint": "npx eslint src --fix"
   },
   "repository": {
     "type": "git",
