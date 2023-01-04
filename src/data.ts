@@ -1,3 +1,4 @@
+import { validateFields } from './helpers.js';
 const ALL_USERS: User[] = [
   {
     id: '0',
@@ -25,4 +26,28 @@ export const getUserById = (userId: string): OperationResult => {
       message: `User with such id doesn't exist.`,
     };
   }
+};
+
+export const createUser = (userData: Omit<User, 'id'>): OperationResult => {
+  const validation = validateFields(userData);
+
+  if (validation.isDone) {
+    //TODO: uuid
+    const id = String(ALL_USERS.length);
+    const { username, age, hobbies } = userData;
+    const newUserData = { id, username, age, hobbies };
+    ALL_USERS.push(newUserData);
+
+    return {
+      isDone: true,
+      statusCode: 201,
+      data: newUserData,
+    };
+  }
+
+  return {
+    isDone: false,
+    statusCode: 400,
+    message: validation.message,
+  };
 };
