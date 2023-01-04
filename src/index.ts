@@ -42,6 +42,33 @@ server.on('request', (req, res) => {
       }
     }
 
+    // Create new user
+    if (!res.writableEnded && method === 'POST') {
+      if (id) {
+        sendInvalidUrlError(res);
+      } else {
+        let body = '';
+
+        req.on('data', (chunk) => {
+          body += chunk.toString();
+        });
+
+        req.on('end', () => {
+          try {
+            const parsedBody = JSON.parse(body);
+            const operationResult = createUser(parsedBody);
+
+            if (operationResult.isDone) {
+              sendDataInJSON(operationResult.statusCode, operationResult.data, res);
+            } else {
+              sendError(operationResult.statusCode, operationResult.message, res);
+            }
+          } catch {
+            sendInvalidBodyError(res);
+          }
+        });
+      }
+    }
   } catch {
     sendInternalServerError(res);
   }
