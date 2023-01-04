@@ -5,6 +5,11 @@ export interface User {
   hobbies: string[];
 }
 
+export enum Endpoints {
+  Api = 'api',
+  Users = 'users',
+}
+
 export interface GoodResult {
   isDone: true;
   statusCode: number;
