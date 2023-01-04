@@ -1,4 +1,5 @@
 import { createServer } from 'http';
+import { createUser, getAllUsers, getUserById, removeUserById, updateUserById } from './data.js';
 import {
   sendDataInJSON,
   sendError,
@@ -7,6 +8,7 @@ import {
   sendInvalidUrlError,
 } from './helpers.js';
 import { Endpoints } from './types.js';
+
 const server = createServer();
 
 server.on('request', (req, res) => {
@@ -67,6 +69,48 @@ server.on('request', (req, res) => {
             sendInvalidBodyError(res);
           }
         });
+      }
+    }
+
+    // Update user
+    if (!res.writableEnded && method === 'PUT') {
+      if (!id) {
+        sendInvalidUrlError(res);
+      }
+
+      let body = '';
+
+      req.on('data', (chunk) => {
+        body += chunk.toString();
+      });
+
+      req.on('end', () => {
+        try {
+          const parsedBody = JSON.parse(body);
+          const operationResult = updateUserById(id, parsedBody);
+
+          if (operationResult.isDone) {
+            sendDataInJSON(operationResult.statusCode, operationResult.data, res);
+          } else {
+            sendError(operationResult.statusCode, operationResult.message, res);
+          }
+        } catch {
+          sendInvalidBodyError(res);
+        }
+      });
+    }
+
+    // Remove user
+    if (!res.writableEnded && method === 'DELETE') {
+      if (!id) {
+        sendInvalidUrlError(res);
+      }
+      const operationResult = removeUserById(id);
+
+      if (operationResult.isDone) {
+        sendDataInJSON(operationResult.statusCode, null, res);
+      } else {
+        sendError(operationResult.statusCode, operationResult.message, res);
       }
     }
   } catch {
