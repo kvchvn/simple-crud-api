@@ -51,3 +51,38 @@ export const createUser = (userData: Omit<User, 'id'>): OperationResult => {
     message: validation.message,
   };
 };
+
+export const updateUserById = (userId: string, newUserData: Omit<User, 'id'>): OperationResult => {
+  //TODO: check if id is valid
+  //TODO: uuid
+  const userIndex = ALL_USERS.findIndex((user) => user.id === userId);
+
+  if (userIndex !== -1) {
+    const validation = validateFields(newUserData);
+
+    if (validation.isDone) {
+      const { username, age, hobbies } = newUserData;
+      const updatedUserData = { id: userId, username, age, hobbies };
+      ALL_USERS.splice(userIndex, 1, updatedUserData);
+
+      return {
+        isDone: true,
+        statusCode: 200,
+        data: updatedUserData,
+      };
+    } else {
+      return {
+        isDone: false,
+        statusCode: 400,
+        message: validation.message,
+      };
+    }
+  }
+
+  return {
+    isDone: false,
+    statusCode: 404,
+    message: `User with such id doesn't exist.`,
+  };
+};
+
