@@ -11,6 +11,7 @@ const config = {
     path: resolve(__dirname, 'dist'),
     filename: 'bundle.js',
   },
+  target: 'node',
   mode: 'production',
   resolve: {
     extensions: ['.ts', '.js', '.json'],
