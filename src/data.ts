@@ -6,3 +6,5 @@ const ALL_USERS: User[] = [
     hobbies: ['films', 'football'],
   },
 ];
+
+export const getAllUsers = () => ALL_USERS;
