@@ -9,8 +9,7 @@
   ],
   "extends": [
     "eslint:recommended",
-    "plugin:@typescript-eslint/recommended",
-    "prettier"
+    "plugin:@typescript-eslint/recommended"
   ],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
@@ -19,9 +18,7 @@
     ]
   },
   "plugins": [
-    "@typescript-eslint",
-    "import",
-    "prettier"
+    "@typescript-eslint"
   ],
   "rules": {
     "comma-dangle": [
@@ -29,7 +26,6 @@
       "only-multiline"
     ],
     "@typescript-eslint/explicit-function-return-type": "off",
-    "@typescript-eslint/interface-name-prefix": "off",
     "@typescript-eslint/no-var-reqiures": "off",
     "@typescript-eslint/no-non-null-assertion": "off",
     "@typescript-eslint/explicit-module-boundary-types": "off",
@@ -37,7 +33,6 @@
     "@typescript-eslint/ban-ts-comment": "error",
     "@typescript-eslint/no-explicit-any": "error",
     "@typescript-eslint/no-unused-vars": "error",
-    "prettier/prettier": "error",
     "no-console": "warn"
   }
 }
