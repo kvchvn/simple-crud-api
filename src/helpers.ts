@@ -38,10 +38,7 @@ export const validateFields = (
 
 export const sendError = (statusCode: number, message: string, res: ServerResponse) => {
   res.writeHead(statusCode, { 'Content-Type': 'application/json' });
-  const result = {
-    status: 'error',
-    message,
-  };
+  const result = { status: 'error', message };
   res.end(JSON.stringify(result));
 };
 
@@ -60,9 +57,6 @@ export const sendDataInJSON = (
   res: ServerResponse
 ) => {
   res.writeHead(statusCode, { 'Content-Type': 'application/json' });
-  const result = {
-    status: 'ok',
-    data,
-  };
+  const result = { status: 'ok', data };
   res.end(JSON.stringify(result));
 };
