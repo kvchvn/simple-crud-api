@@ -1,9 +1,11 @@
+import { randomUUID } from 'crypto';
+import { USER_DOES_NOT_EXIST } from './constants.js';
 import { validateFields } from './helpers.js';
 import { BadResult, GoodResult, OperationResult, User } from './types.js';
 
 const ALL_USERS: User[] = [
   {
-    id: '0',
+    id: '123e4567-e89b-12d3-a456-426655440000',
     username: 'Anton',
     age: 25,
     hobbies: ['films', 'football'],
@@ -13,7 +15,6 @@ const ALL_USERS: User[] = [
 export const getAllUsers = () => ALL_USERS;
 
 export const getUserById = (userId: string): OperationResult => {
-  //TODO: check if id is valid
   const user = ALL_USERS.find((user) => user.id === userId);
 
   if (user) {
@@ -27,8 +28,7 @@ export const createUser = (userData: Omit<User, 'id'>): OperationResult => {
   const validation = validateFields(userData);
 
   if (validation.isDone) {
-    //TODO: uuid
-    const id = String(ALL_USERS.length);
+    const id = randomUUID();
     const { username, age, hobbies } = userData;
     const newUserData = { id, username, age, hobbies };
     ALL_USERS.push(newUserData);
@@ -39,8 +39,6 @@ export const createUser = (userData: Omit<User, 'id'>): OperationResult => {
 };
 
 export const updateUserById = (userId: string, newUserData: Omit<User, 'id'>): OperationResult => {
-  //TODO: check if id is valid
-  //TODO: uuid
   const userIndex = ALL_USERS.findIndex((user) => user.id === userId);
 
   if (userIndex !== -1) {
