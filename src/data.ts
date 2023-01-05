@@ -20,7 +20,7 @@ export const getUserById = (userId: string): OperationResult => {
   if (user) {
     return { isDone: true, statusCode: 200, data: user };
   } else {
-    return { isDone: false, statusCode: 404, message: `User with such id doesn't exist.` };
+    return { isDone: false, statusCode: 404, message: USER_DOES_NOT_EXIST };
   }
 };
 
@@ -55,7 +55,7 @@ export const updateUserById = (userId: string, newUserData: Omit<User, 'id'>): O
     }
   }
 
-  return { isDone: false, statusCode: 404, message: `User with such id doesn't exist.` };
+  return { isDone: false, statusCode: 404, message: USER_DOES_NOT_EXIST };
 };
 
 export const removeUserById = (userId: string): Omit<GoodResult, 'data'> | BadResult => {
@@ -66,6 +66,6 @@ export const removeUserById = (userId: string): Omit<GoodResult, 'data'> | BadRe
     ALL_USERS.splice(userIndex, 1);
     return { isDone: true, statusCode: 204 };
   } else {
-    return { isDone: false, statusCode: 404, message: `User with such id doesn't exist.` };
+    return { isDone: false, statusCode: 404, message: USER_DOES_NOT_EXIST };
   }
 };
