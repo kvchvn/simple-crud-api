@@ -28,7 +28,7 @@ export const validateFields = (
   ) {
     return {
       isDone: false,
-      message: `Field 'hobbies' should be array of strings`,
+      message: `Field 'hobbies' should be array of strings or empty array`,
     };
   }
   return {
