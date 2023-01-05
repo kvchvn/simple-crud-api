@@ -51,6 +51,8 @@ export const sendInternalServerError = (res: ServerResponse) =>
 export const sendInvalidBodyError = (res: ServerResponse) =>
   sendError(400, `Request's body is invalid.`, res);
 
+export const sendInvalidIdError = (res: ServerResponse) => sendError(400, 'Invalid ID.', res);
+
 export const sendDataInJSON = (
   statusCode: number,
   data: User | User[] | null,
