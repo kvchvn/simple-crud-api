@@ -1,6 +1,13 @@
 import { IncomingMessage, ServerResponse } from 'http';
 import { createUser, getAllUsers, getUserById, removeUserById, updateUserById } from './data.js';
-import { sendDataInJSON, sendError, sendInvalidBodyError, sendInvalidUrlError } from './helpers.js';
+import {
+  sendDataInJSON,
+  sendError,
+  sendInvalidBodyError,
+  sendInvalidIdError,
+  sendInvalidUrlError,
+  validateId,
+} from './helpers.js';
 
 export const handleGetAllUsers = (res: ServerResponse) => {
   if (res.writableEnded) return;
@@ -11,6 +18,12 @@ export const handleGetAllUsers = (res: ServerResponse) => {
 
 export const handleGetUserById = (id: string, res: ServerResponse) => {
   if (res.writableEnded) return;
+
+  const isValidId = validateId(id);
+  if (!isValidId) {
+    sendInvalidIdError(res);
+    return;
+  }
 
   const operationResult = getUserById(id);
   if (operationResult.isDone) {
@@ -58,6 +71,12 @@ export const handleUpdateUserById = (id: string, req: IncomingMessage, res: Serv
     return;
   }
 
+  const isValidId = validateId(id);
+  if (!isValidId) {
+    sendInvalidIdError(res);
+    return;
+  }
+
   let body = '';
 
   req.on('data', (chunk) => {
@@ -85,6 +104,12 @@ export const handleRemoveUserById = (id: string, res: ServerResponse) => {
 
   if (!id) {
     sendInvalidUrlError(res);
+    return;
+  }
+
+  const isValidId = validateId(id);
+  if (!isValidId) {
+    sendInvalidIdError(res);
     return;
   }
 
