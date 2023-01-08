@@ -3,14 +3,7 @@ import { USER_DOES_NOT_EXIST } from './constants.js';
 import { validateFields } from './helpers.js';
 import { BadResult, GoodResult, OperationResult, User } from './types.js';
 
-const ALL_USERS: User[] = [
-  {
-    id: '123e4567-e89b-12d3-a456-426655440000',
-    username: 'Anton',
-    age: 25,
-    hobbies: ['films', 'football'],
-  },
-];
+export const ALL_USERS: User[] = [];
 
 export const getAllUsers = () => ALL_USERS;
 
