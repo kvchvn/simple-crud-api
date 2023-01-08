@@ -8,7 +8,6 @@ import {
   handleRemoveUserById,
   handleUpdateUserById,
 } from './requestHandlers.js';
-import { Endpoints } from './types.js';
 
 dotenv.config();
 
@@ -23,12 +22,7 @@ server.on('request', (req, res) => {
     const [reqPath, reqSubPath, id] = urlArray;
 
     // Invalid url
-    if (
-      reqPath !== Endpoints.Api ||
-      reqSubPath !== Endpoints.Users ||
-      id === '' ||
-      urlArray.length > 3
-    ) {
+    if (reqPath !== 'api' || reqSubPath !== 'users' || id === '' || urlArray.length > 3) {
       sendInvalidUrlError(res);
     }
 
