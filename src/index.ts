@@ -11,9 +11,9 @@ import {
 
 dotenv.config();
 
-const server = createServer();
-
 const PORT = process.env.PORT || 4000;
+
+const server = createServer();
 
 server.on('request', (req, res) => {
   try {
@@ -57,3 +57,7 @@ server.on('request', (req, res) => {
 
 server.listen(PORT);
 process.stdout.write(`\nServer is listening on http://localhost:${PORT}\n`);
+
+process.on('SIGINT', () => process.exit());
+
+export default server;
