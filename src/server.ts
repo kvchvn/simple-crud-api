@@ -65,6 +65,21 @@ const runServer = (port: number) => {
       if (method === 'DELETE') {
         handleRemoveUserById(id, res);
       }
+
+      res.on('close', () => {
+        if (IS_MULTI_MODE) {
+          // sync ALL_USERS between main process and all the workers
+          if (cluster.isPrimary) {
+            shareDataToWorkers(ALL_USERS);
+          }
+
+          if (cluster.isWorker) {
+            if (process.send) {
+              process.send(ALL_USERS);
+            }
+          }
+        }
+      });
     } catch {
       sendInternalServerError(res);
     }
