@@ -3,8 +3,6 @@ import runServer from './server.js';
 
 dotenv.config();
 
-const PORT = Number(process.env.PORT) || 4000;
-
 process.on('SIGINT', () => process.exit());
 
 const server = runServer(PORT);

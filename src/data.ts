@@ -1,5 +1,5 @@
 import { randomUUID } from 'crypto';
-import { USER_DOES_NOT_EXIST } from './constants.js';
+import { USER_DOES_NOT_EXIST_MESSAGE } from './constants.js';
 import { validateFields } from './helpers.js';
 import { BadResult, GoodResult, OperationResult, User } from './types.js';
 
@@ -13,7 +13,7 @@ export const getUserById = (userId: string): OperationResult => {
   if (user) {
     return { isDone: true, statusCode: 200, data: user };
   } else {
-    return { isDone: false, statusCode: 404, message: USER_DOES_NOT_EXIST };
+    return { isDone: false, statusCode: 404, message: USER_DOES_NOT_EXIST_MESSAGE };
   }
 };
 
@@ -48,7 +48,7 @@ export const updateUserById = (userId: string, newUserData: Omit<User, 'id'>): O
     }
   }
 
-  return { isDone: false, statusCode: 404, message: USER_DOES_NOT_EXIST };
+  return { isDone: false, statusCode: 404, message: USER_DOES_NOT_EXIST_MESSAGE };
 };
 
 export const removeUserById = (userId: string): Omit<GoodResult, 'data'> | BadResult => {
@@ -59,6 +59,6 @@ export const removeUserById = (userId: string): Omit<GoodResult, 'data'> | BadRe
     ALL_USERS.splice(userIndex, 1);
     return { isDone: true, statusCode: 204 };
   } else {
-    return { isDone: false, statusCode: 404, message: USER_DOES_NOT_EXIST };
+    return { isDone: false, statusCode: 404, message: USER_DOES_NOT_EXIST_MESSAGE };
   }
 };
