@@ -1,3 +1,4 @@
+import cluster from 'cluster';
 import { ServerResponse } from 'http';
 import { BadResult, GoodResult, User } from './types.js';
 
@@ -66,4 +67,15 @@ export const sendDataInJSON = (
 export const validateId = (id: string) => {
   const [timeLow, timeMid, timeHi, clockSeq, node] = id.split('-').map((elem) => elem.length);
   return !(timeLow !== 8 || timeMid !== 4 || timeHi !== 4 || clockSeq !== 4 || node !== 12);
+};
+
+export const shareDataToWorkers = (data: User[]) => {
+  if (cluster.workers) {
+    const workers = Object.values(cluster.workers);
+    workers.forEach((worker) => {
+      if (worker) {
+        worker.send(data);
+      }
+    });
+  }
 };
