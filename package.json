@@ -7,7 +7,8 @@
   "scripts": {
     "start:dev": "npx nodemon",
     "start:prod": "npx webpack build && node dist/bundle.cjs",
-    "start:multi": "cross-env MODE=multi npm run start:dev ",
+    "start:multi": "cross-env MODE=multi npm run start:prod",
+    "start:multi-dev": "cross-env MODE=multi npm run start:dev",
     "lint": "npx eslint src --fix",
     "test": "jest",
     "test:coverage": "jest --coverage"
