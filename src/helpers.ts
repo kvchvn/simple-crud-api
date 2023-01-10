@@ -43,14 +43,14 @@ export const sendError = (statusCode: number, errorMessage: string, res: ServerR
   res.end(JSON.stringify(result));
 };
 
-export const sendInvalidUrlError = (res: ServerResponse) =>
-  sendError(404, `Request's url is invalid.`, res);
+export const sendInvalidEndpointError = (res: ServerResponse) =>
+  sendError(404, `Invalid endpoint.`, res);
 
 export const sendInternalServerError = (res: ServerResponse) =>
   sendError(500, 'Internal server error.', res);
 
 export const sendInvalidBodyError = (res: ServerResponse) =>
-  sendError(400, `Request's body is invalid.`, res);
+  sendError(400, `Invalid request's body.`, res);
 
 export const sendInvalidIdError = (res: ServerResponse) => sendError(400, 'Invalid ID.', res);
 

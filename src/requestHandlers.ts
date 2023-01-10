@@ -4,8 +4,8 @@ import {
   sendDataInJSON,
   sendError,
   sendInvalidBodyError,
+  sendInvalidEndpointError,
   sendInvalidIdError,
-  sendInvalidUrlError,
   validateId,
 } from './helpers.js';
 
@@ -37,7 +37,7 @@ export const handleCreateUser = (id: string, req: IncomingMessage, res: ServerRe
   if (res.writableEnded) return;
 
   if (id) {
-    sendInvalidUrlError(res);
+    sendInvalidEndpointError(res);
     return;
   }
 
@@ -67,7 +67,7 @@ export const handleUpdateUserById = (id: string, req: IncomingMessage, res: Serv
   if (res.writableEnded) return;
 
   if (!id) {
-    sendInvalidUrlError(res);
+    sendInvalidEndpointError(res);
     return;
   }
 
@@ -103,7 +103,7 @@ export const handleRemoveUserById = (id: string, res: ServerResponse) => {
   if (res.writableEnded) return;
 
   if (!id) {
-    sendInvalidUrlError(res);
+    sendInvalidEndpointError(res);
     return;
   }
 

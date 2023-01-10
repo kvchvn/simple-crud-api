@@ -25,7 +25,7 @@ const runServer = (port: number) => {
 
       // Invalid url
       if (reqPath !== 'api' || reqSubPath !== 'users' || id === '' || urlArray.length > 3) {
-        sendInvalidUrlError(res);
+        sendInvalidEndpointError(res);
       }
 
       if (IS_MULTI_MODE && cluster.isPrimary) {
