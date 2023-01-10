@@ -1,9 +1,13 @@
 import cluster from 'cluster';
 import { createServer } from 'http';
 import { cpus } from 'os';
-import { BASE_PROTOCOL_WITH_HOSTNAME, IS_MULTI_MODE, PORT } from './constants.js';
+import { BASE_PROTOCOL_WITH_HOSTNAME, IS_MULTI_MODE, PORT, REQUEST } from './constants.js';
 import { ALL_USERS } from './data.js';
-import { sendInternalServerError, sendInvalidUrlError, shareDataToWorkers } from './helpers.js';
+import {
+  sendInternalServerError,
+  sendInvalidEndpointError,
+  shareDataToWorkers,
+} from './helpers.js';
 import {
   handleCreateUser,
   handleGetAllUsers,
@@ -15,6 +19,7 @@ import {
 const runServer = (port: number) => {
   const INITIAL_PORT_INDEX = 1;
   let portIndex = INITIAL_PORT_INDEX;
+
   const server = createServer();
 
   server.on('request', (req, res) => {
@@ -28,17 +33,38 @@ const runServer = (port: number) => {
         sendInvalidEndpointError(res);
       }
 
-      if (IS_MULTI_MODE && cluster.isPrimary) {
-        const redirectedPort = PORT + portIndex;
-        const redirectedLocation = `${BASE_PROTOCOL_WITH_HOSTNAME}:${redirectedPort}${url}`;
+      if (IS_MULTI_MODE) {
+        if (cluster.isPrimary && cluster.workers) {
+          const redirectedPort = PORT + portIndex;
+          const redirectedLocation = `${BASE_PROTOCOL_WITH_HOSTNAME}:${redirectedPort}${url}`;
 
-        if (portIndex === cpus().length) {
-          portIndex = INITIAL_PORT_INDEX;
-        } else {
-          portIndex += 1;
+          const workers = Object.values(cluster.workers);
+          const workerByPort = workers.find((worker) => {
+            if (worker) {
+              return worker.id === redirectedPort;
+            }
+          });
+          if (workerByPort) {
+            workerByPort.send({ isRedirectedRequest: true });
+          }
+
+          if (portIndex === cpus().length) {
+            portIndex = INITIAL_PORT_INDEX;
+          } else {
+            portIndex += 1;
+          }
+
+          res.writeHead(307, { location: redirectedLocation });
+          res.end();
         }
-        res.writeHead(307, { location: redirectedLocation });
-        res.end();
+
+        if (cluster.isWorker) {
+          if (REQUEST.isRedirected) {
+            REQUEST.isRedirected = false;
+          } else {
+            req.destroy();
+          }
+        }
       }
 
       // Get all users

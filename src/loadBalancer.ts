@@ -1,6 +1,6 @@
 import cluster from 'cluster';
 import { cpus } from 'os';
-import { PORT } from './constants.js';
+import { PORT, REQUEST } from './constants.js';
 import { ALL_USERS } from './data.js';
 import { shareDataToWorkers } from './helpers.js';
 import { User } from './types.js';
@@ -8,7 +8,8 @@ import { User } from './types.js';
 const forkCluster = () => {
   cpus().forEach((_, index) => {
     const WORKER_PORT = PORT + 1 + index;
-    cluster.fork({ PORT: WORKER_PORT });
+    const worker = cluster.fork({ PORT: WORKER_PORT });
+    worker.id = WORKER_PORT;
   });
 };
 
@@ -23,8 +24,12 @@ const runLoadBalancer = () => {
   }
 
   if (cluster.isWorker) {
-    process.on('message', (data: User[]) => {
-      ALL_USERS.splice(0, ALL_USERS.length, ...data);
+    process.on('message', (data: User[] | { isRedirectedRequest: boolean }) => {
+      if (Array.isArray(data)) {
+        ALL_USERS.splice(0, ALL_USERS.length, ...data);
+      } else if (data.isRedirectedRequest) {
+        REQUEST.isRedirected = true;
+      }
     });
   }
 };
