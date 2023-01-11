@@ -46,6 +46,9 @@ export const sendError = (statusCode: number, errorMessage: string, res: ServerR
 export const sendInvalidEndpointError = (res: ServerResponse) =>
   sendError(404, `Invalid endpoint.`, res);
 
+export const sendUserDoesNotExistError = (res: ServerResponse) =>
+  sendError(404, `User with such ID doesn't exist.`, res);
+
 export const sendInternalServerError = (res: ServerResponse) =>
   sendError(500, 'Internal server error.', res);
 
