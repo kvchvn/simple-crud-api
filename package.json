@@ -44,7 +44,9 @@
     "webpack-cli": "^5.0.1"
   },
   "dependencies": {
+    "@types/uuid": "^9.0.0",
     "cross-env": "^7.0.3",
-    "dotenv": "^16.0.3"
+    "dotenv": "^16.0.3",
+    "uuid": "^9.0.0"
   }
 }
