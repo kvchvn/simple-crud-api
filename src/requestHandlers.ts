@@ -28,8 +28,7 @@ export const handleGetAllUsers = (res: ServerResponse) => {
 export const handleGetUserById = (id: string, res: ServerResponse) => {
   if (res.writableEnded) return;
 
-  const isValidId = validateId(id);
-  if (!isValidId) {
+  if (!validate(id)) {
     sendInvalidIdError(res);
     return;
   }
@@ -85,8 +84,7 @@ export const handleUpdateUserById = (id: string, req: IncomingMessage, res: Serv
     return;
   }
 
-  const isValidId = validateId(id);
-  if (!isValidId) {
+  if (!validate(id)) {
     sendInvalidIdError(res);
     return;
   }
@@ -131,8 +129,7 @@ export const handleRemoveUserById = (id: string, res: ServerResponse) => {
     return;
   }
 
-  const isValidId = validateId(id);
-  if (!isValidId) {
+  if (!validate(id)) {
     sendInvalidIdError(res);
     return;
   }
