@@ -1,12 +1,21 @@
 import { IncomingMessage, ServerResponse } from 'http';
-import { createUser, getAllUsers, getUserById, removeUserById, updateUserById } from './data.js';
+import { v4 as generateUUID, validate } from 'uuid';
+import {
+  createUser,
+  getAllUsers,
+  getUserById,
+  getUserIndexById,
+  removeUserByIndex,
+  updateUserByIndex,
+} from './data.js';
 import {
   sendDataInJSON,
   sendError,
   sendInvalidBodyError,
   sendInvalidEndpointError,
   sendInvalidIdError,
-  validateId,
+  sendUserDoesNotExistError,
+  validateFields,
 } from './helpers.js';
 
 export const handleGetAllUsers = (res: ServerResponse) => {
@@ -25,11 +34,11 @@ export const handleGetUserById = (id: string, res: ServerResponse) => {
     return;
   }
 
-  const operationResult = getUserById(id);
-  if (operationResult.isDone) {
-    sendDataInJSON(operationResult.statusCode, operationResult.data, res);
+  const user = getUserById(id);
+  if (user) {
+    sendDataInJSON(200, user, res);
   } else {
-    sendError(operationResult.statusCode, operationResult.message, res);
+    sendUserDoesNotExistError(res);
   }
 };
 
@@ -49,13 +58,18 @@ export const handleCreateUser = (id: string, req: IncomingMessage, res: ServerRe
 
   req.on('end', () => {
     try {
-      const parsedBody = JSON.parse(body);
-      const operationResult = createUser(parsedBody);
+      const parsedUserData = JSON.parse(body);
+      const validation = validateFields(parsedUserData);
 
-      if (operationResult.isDone) {
-        sendDataInJSON(operationResult.statusCode, operationResult.data, res);
+      if (validation.isDone) {
+        const id = generateUUID();
+        const { username, age, hobbies } = parsedUserData;
+        const userData = { id, username, age, hobbies };
+        createUser(userData);
+
+        sendDataInJSON(201, userData, res);
       } else {
-        sendError(operationResult.statusCode, operationResult.message, res);
+        sendError(400, validation.message, res);
       }
     } catch {
       sendInvalidBodyError(res);
@@ -85,13 +99,23 @@ export const handleUpdateUserById = (id: string, req: IncomingMessage, res: Serv
 
   req.on('end', () => {
     try {
-      const parsedBody = JSON.parse(body);
-      const operationResult = updateUserById(id, parsedBody);
+      const parsedUserData = JSON.parse(body);
+      const userIndex = getUserIndexById(id);
 
-      if (operationResult.isDone) {
-        sendDataInJSON(operationResult.statusCode, operationResult.data, res);
+      if (userIndex !== -1) {
+        const validation = validateFields(parsedUserData);
+
+        if (validation.isDone) {
+          const { username, age, hobbies } = parsedUserData;
+          const updatedUserData = { id, username, age, hobbies };
+          updateUserByIndex(userIndex, updatedUserData);
+
+          sendDataInJSON(200, updatedUserData, res);
+        } else {
+          sendError(400, validation.message, res);
+        }
       } else {
-        sendError(operationResult.statusCode, operationResult.message, res);
+        sendUserDoesNotExistError(res);
       }
     } catch {
       sendInvalidBodyError(res);
@@ -113,11 +137,12 @@ export const handleRemoveUserById = (id: string, res: ServerResponse) => {
     return;
   }
 
-  const operationResult = removeUserById(id);
+  const userIndex = getUserIndexById(id);
 
-  if (operationResult.isDone) {
-    sendDataInJSON(operationResult.statusCode, null, res);
+  if (userIndex !== -1) {
+    removeUserByIndex(userIndex);
+    sendDataInJSON(204, null, res);
   } else {
-    sendError(operationResult.statusCode, operationResult.message, res);
+    sendUserDoesNotExistError(res);
   }
 };
