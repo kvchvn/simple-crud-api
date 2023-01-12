@@ -1,0 +1,52 @@
+{
+  "name": "simple-crud-api",
+  "version": "1.0.0",
+  "description": "This app is a part of Node.js course of RS School.",
+  "main": "dist/bundle.js",
+  "type": "module",
+  "scripts": {
+    "start:dev": "npx nodemon",
+    "start:prod": "npx webpack build && node dist/bundle.cjs",
+    "start:multi": "cross-env MODE=multi npm run start:prod",
+    "start:multi-dev": "cross-env MODE=multi npm run start:dev",
+    "lint": "npx eslint src --fix",
+    "test": "jest",
+    "test:coverage": "jest --coverage"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kvchvn/simple-crud-api.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kvchvn/simple-crud-api/issues"
+  },
+  "homepage": "https://github.com/kvchvn/simple-crud-api#readme",
+  "devDependencies": {
+    "@types/jest": "^29.2.5",
+    "@types/node": "^18.11.18",
+    "@types/supertest": "^2.0.12",
+    "@typescript-eslint/eslint-plugin": "^5.48.0",
+    "@typescript-eslint/parser": "^5.48.0",
+    "eslint": "^8.31.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "jest": "^29.3.1",
+    "nodemon": "^2.0.20",
+    "prettier": "^2.8.1",
+    "supertest": "^6.3.3",
+    "ts-jest": "^29.0.3",
+    "ts-loader": "^9.4.2",
+    "ts-node": "^10.9.1",
+    "typescript": "^4.9.4",
+    "webpack": "^5.75.0",
+    "webpack-cli": "^5.0.1"
+  },
+  "dependencies": {
+    "@types/uuid": "^9.0.0",
+    "cross-env": "^7.0.3",
+    "dotenv": "^16.0.3",
+    "uuid": "^9.0.0"
+  }
+}
