@@ -60,7 +60,7 @@ export const handleCreateUser = (id: string, req: IncomingMessage, res: ServerRe
       const parsedUserData = JSON.parse(body);
       const validation = validateFields(parsedUserData);
 
-      if (validation.isDone) {
+      if (validation.isSuccess) {
         const id = generateUUID();
         const { username, age, hobbies } = parsedUserData;
         const userData = { id, username, age, hobbies };
@@ -103,7 +103,7 @@ export const handleUpdateUserById = (id: string, req: IncomingMessage, res: Serv
       if (userIndex !== -1) {
         const validation = validateFields(parsedUserData);
 
-        if (validation.isDone) {
+        if (validation.isSuccess) {
           const { username, age, hobbies } = parsedUserData;
           const updatedUserData = { id, username, age, hobbies };
           updateUserByIndex(userIndex, updatedUserData);

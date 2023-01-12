@@ -1,25 +1,25 @@
 import cluster from 'cluster';
 import { ServerResponse } from 'http';
-import { BadResult, GoodResult, User } from './types.js';
+import { User } from './types.js';
 
 export const validateFields = (
   userData: Record<string, unknown>
-): Pick<GoodResult, 'isDone'> | Pick<BadResult, 'isDone' | 'message'> => {
+): { isSuccess: true } | { isSuccess: false; message: string } => {
   if (!('username' in userData) || !('age' in userData) || !('hobbies' in userData)) {
     return {
-      isDone: false,
+      isSuccess: false,
       message: 'These fields are required: username, age, hobbies.',
     };
   }
   if (typeof userData.username !== 'string') {
     return {
-      isDone: false,
+      isSuccess: false,
       message: `Field 'username' should be string.`,
     };
   }
   if (typeof userData.age !== 'number') {
     return {
-      isDone: false,
+      isSuccess: false,
       message: `Field 'age' should be number.`,
     };
   }
@@ -28,12 +28,12 @@ export const validateFields = (
     !userData.hobbies.every((item) => typeof item === 'string')
   ) {
     return {
-      isDone: false,
+      isSuccess: false,
       message: `Field 'hobbies' should be array of strings or empty array`,
     };
   }
   return {
-    isDone: true,
+    isSuccess: true,
   };
 };
 
