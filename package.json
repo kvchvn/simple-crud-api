@@ -1,0 +1,31 @@
+{
+  "name": "simple-crud-api",
+  "version": "1.0.0",
+  "description": "Simple CRUD API",
+  "main": "index.js",
+  "scripts": {
+    "start:dev": "ts-node-dev --respawn src/index.ts",
+    "start:prod": "cross-env NODE_ENV=production webpack && node build/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kvchvn/simple-crud-api.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kvchvn/simple-crud-api/issues"
+  },
+  "homepage": "https://github.com/kvchvn/simple-crud-api#readme",
+  "devDependencies": {
+    "@types/node": "^24.0.14",
+    "ts-loader": "^9.5.2",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^5.8.3",
+    "webpack": "^5.100.2",
+    "webpack-cli": "^6.0.1"
+  },
+  "dependencies": {
+    "cross-env": "^10.0.0"
+  }
+}
