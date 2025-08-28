@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "start:dev": "ts-node-dev --respawn src/index.ts",
-    "start:prod": "cross-env NODE_ENV=production webpack && node build/index.js"
+    "start:prod": "cross-env NODE_ENV=production webpack && node build/index.js",
+    "lint": "npx eslint",
+    "lint:fix": "npx eslint --fix"
   },
   "repository": {
     "type": "git",
@@ -18,14 +20,23 @@
   },
   "homepage": "https://github.com/kvchvn/simple-crud-api#readme",
   "devDependencies": {
+    "@eslint/json": "^0.13.2",
     "@types/node": "^24.0.14",
+    "eslint": "^9.34.0",
+    "eslint-plugin-prettier": "^5.5.4",
+    "eslint-plugin-simple-import-sort": "^12.1.1",
+    "eslint-plugin-unused-imports": "^4.2.0",
+    "globals": "^16.3.0",
+    "prettier": "^3.6.2",
     "ts-loader": "^9.5.2",
     "ts-node-dev": "^2.0.0",
     "typescript": "^5.8.3",
+    "typescript-eslint": "^8.41.0",
     "webpack": "^5.100.2",
     "webpack-cli": "^6.0.1"
   },
   "dependencies": {
-    "cross-env": "^10.0.0"
+    "cross-env": "^10.0.0",
+    "dotenv": "^17.2.1"
   }
 }
