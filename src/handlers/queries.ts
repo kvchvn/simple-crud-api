@@ -1,10 +1,10 @@
 import { validate as uuidValidate } from 'uuid';
 
 import { HttpError } from '../error';
-import { StatusCodes } from '../types';
+import { EndpointHandler, StatusCodes } from '../types';
 import { getUrlSegments, readDB } from '../utils';
 
-export const getUsers = async (url: string) => {
+export const getUsers: EndpointHandler = async (url) => {
   const segments = getUrlSegments(url);
 
   if (!segments.length) {
@@ -16,8 +16,8 @@ export const getUsers = async (url: string) => {
 };
 
 export const getAllUsers = async () => {
-  const data = await readDB();
-  return data.users;
+  const db = await readDB();
+  return { data: db.users, status: StatusCodes.Ok };
 };
 
 export const getUserById = async (id: string | undefined) => {
@@ -27,13 +27,13 @@ export const getUserById = async (id: string | undefined) => {
     throw new HttpError(StatusCodes.BadRequest, 'Invalid userId');
   }
 
-  const data = await readDB();
+  const db = await readDB();
 
-  const user = data.users.find((u) => u.id === id);
+  const user = db.users.find((u) => u.id === id);
 
   if (!user) {
     throw new HttpError(StatusCodes.NotFound, 'User with such id is not found');
   }
 
-  return user;
+  return { data: user, status: StatusCodes.Ok };
 };

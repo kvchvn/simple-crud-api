@@ -1,6 +1,10 @@
-import { Methods } from '../types';
+import { Endpoints, Methods } from '../types';
+import { createUser, deleteUser, updateUser } from './mutations';
 import { getUsers } from './queries';
 
-type Endpoints = Record<Methods, (url: string, body?: unknown) => Promise<unknown>>;
-
-export const endpoints: Partial<Endpoints> = { GET: getUsers };
+export const endpoints: Partial<Endpoints> = {
+  [Methods.Get]: getUsers,
+  [Methods.Post]: createUser,
+  [Methods.Put]: updateUser,
+  [Methods.Delete]: deleteUser,
+};

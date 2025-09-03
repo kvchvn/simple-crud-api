@@ -65,7 +65,6 @@ export const readRequestBody = (req: http.IncomingMessage) =>
     });
 
     req.on('end', () => {
-      console.log({ body });
       try {
         const parsedBody: unknown = JSON.parse(body);
         resolve(parsedBody);

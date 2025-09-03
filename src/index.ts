@@ -19,9 +19,9 @@ const server = http.createServer(async (req, res) => {
 
     if (doMethodExist(method) && isValidUrl(url) && endpoints[method]) {
       const body = await readRequestBody(req);
-      const data = await endpoints[method](url, body);
+      const { data, status } = await endpoints[method](url, body);
 
-      res.statusCode = StatusCodes.Ok;
+      res.statusCode = status;
       res.end(JSON.stringify({ data }));
     } else {
       throw new HttpError(StatusCodes.NotFound, 'Not found such API endpoint');
