@@ -4,9 +4,10 @@ import { fileURLToPath } from "node:url";
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 const isProduction = process.env.NODE_ENV === 'production';
+const isMultiMode = process.env.MODE === 'multi';
 
 export default {
-    entry: './src/index.ts',
+    entry: isMultiMode ? './src/index.multi.ts' : './src/index.ts',
     target: 'node',
     output: {
         path: path.resolve(__dirname, 'build'),

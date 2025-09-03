@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "start:dev": "ts-node-dev --respawn src/index.ts",
+    "start:dev:multi": "ts-node-dev --respawn src/index.multi.ts",
     "start:prod": "cross-env NODE_ENV=production webpack && node build/index.js",
+    "start:prod:multi": "cross-env NODE_ENV=production MODE=multi webpack && node build/index.js",
     "lint": "npx eslint",
     "lint:fix": "npx eslint --fix"
   },
