@@ -1,7 +1,7 @@
 import { v4 as uuidV4, validate as uuidValidate } from 'uuid';
 
 import { HttpError } from '../error';
-import { EndpointHandler, isUser, StatusCodes, type User } from '../types';
+import { EndpointHandler, isValidUser, StatusCodes, type User } from '../types';
 import { getUrlSegments, readDB, writeDB } from '../utils';
 
 export const createUser: EndpointHandler = async (url, body) => {
@@ -11,7 +11,7 @@ export const createUser: EndpointHandler = async (url, body) => {
     throw new HttpError(StatusCodes.BadRequest, 'Invalid endpoint');
   }
 
-  if (!isUser(body)) {
+  if (!isValidUser(body)) {
     throw new HttpError(StatusCodes.BadRequest, 'Invalid body of request');
   }
 
@@ -37,7 +37,7 @@ export const updateUser: EndpointHandler = async (url, body) => {
     throw new HttpError(StatusCodes.BadRequest, 'Invalid userId');
   }
 
-  if (!isUser(body)) {
+  if (!isValidUser(body)) {
     throw new HttpError(StatusCodes.BadRequest, 'Invalid body of request');
   }
 

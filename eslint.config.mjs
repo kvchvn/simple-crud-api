@@ -10,7 +10,7 @@ export default defineConfig([
   {
     files: ["src/**/*.ts"],
     languageOptions: {
-      globals: globals.node,
+      globals: [globals.node, globals.jest],
       parser: tseslint.parser,
       parserOptions: {
         projectService: true,

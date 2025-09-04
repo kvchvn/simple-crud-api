@@ -35,7 +35,7 @@ export type EndpointHandler = (
 ) => Promise<{ data: unknown; status: number }>;
 export type Endpoints = Record<Methods, EndpointHandler>;
 
-export const isUser = (user: unknown): user is User => {
+export const isValidUser = (user: unknown): user is User => {
   const isValidObject = user && typeof user === 'object';
 
   if (isValidObject) {

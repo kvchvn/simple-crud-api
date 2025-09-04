@@ -17,7 +17,7 @@ export const startSever = (port: number) => {
         const { data, status } = await endpoints[method](url, body);
 
         res.statusCode = status;
-        res.end(JSON.stringify({ data, port }));
+        res.end(JSON.stringify({ data }));
       } else {
         throw new HttpError(StatusCodes.NotFound, 'Not found such API endpoint');
       }
@@ -38,4 +38,6 @@ export const startSever = (port: number) => {
 
   server.listen(port);
   console.log(`Server is listening on port ${port}`);
+
+  return server;
 };
